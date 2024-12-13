@@ -15,7 +15,8 @@
     <junit.version>5.8.2</junit.version> <!-- Updated to JUnit 5 -->
     <log4j.version>1.2.17</log4j.version> <!-- Still valid, but consider upgrading to log4j 2.x -->
     <sonar.host.url>http://13.232.202.187:9000/</sonar.host.url>
-    <sonar.login>sqa_68b6b7bded6c431956a52a727770a4b36478da7b</sonar.login>
+    <sonar.login>admin</sonar.login>
+    <sonar.password>sonar</sonar.password>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
