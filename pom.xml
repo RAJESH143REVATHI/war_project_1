@@ -42,10 +42,16 @@
 
   </build>
   <distributionManagement>
-    <repository>
-         <id>nexus</id>
-         <name>projectwar_1 Nexus Repository</name>
-         <url>http://52.66.15.105:8081/repository/projectwar_1/</url>
-    </repository>
+            <repository>
+              <id>nexus</id>
+              <name>Projectwar_1 Releases Nexus Repository</name>
+              <url>http://52.66.15.105:8081/repository/projectwarRelease_1/</url>
+            </repository>
+
+            <snapshotRepository>
+              <id>nexus</id>
+              <name>Projectwar_1 Snapshot Nexus Repository </name>
+              <url>http://52.66.15.105:8081/repository/projectwar_1//</url>
+            </snapshotRepository>
   </distributionManagement>  
 </project>
