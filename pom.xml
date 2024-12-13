@@ -44,7 +44,7 @@
   <distributionManagement>
     <repository>
          <id>nexus</id>
-         <name>IRCT_Reg Releases Nexus Repository</name>
+         <name>projectwar_1 Nexus Repository</name>
          <url>http://52.66.15.105:8081/repository/projectwar_1/</url>
     </repository>
   </distributionManagement>  
