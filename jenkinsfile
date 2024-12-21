@@ -14,8 +14,6 @@ sh "${mavenHome}/bin/mvn clean package"
 stage('SonarQube'){
 sh "${mavenHome}/bin/mvn sonar:sonar"
 }
-
-/*
 stage("DeployArtifacts into nexus"){
 sh "${mavenHome}/bin/mvn deploy"    
 }
@@ -24,6 +22,5 @@ sshagent(['f346c79f-38a0-4c16-bffb-632546e8cf75']) {
 sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@13.127.228.16:/opt/tomcat9/webapps"
 }    
 }
-*/
 
 }
