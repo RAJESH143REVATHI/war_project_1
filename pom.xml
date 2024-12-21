@@ -44,8 +44,8 @@
   <distributionManagement>
             <snapshotRepository>
               <id>nexus</id>
-              <name>Projectwar_1 Snapshot Nexus Repository </name>
-              <url>http://13.233.149.251:8081/repository/copied_1/</url>
+              <name>wenAppMaven-Project</name>
+              <url>http://43.205.99.61:8081/repository/webAppMaven-Project/</url>
             </snapshotRepository>
   </distributionManagement>  
 </project>
