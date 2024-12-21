@@ -45,7 +45,7 @@
             <snapshotRepository>
               <id>nexus</id>
               <name>wenAppMaven-Project</name>
-              <url>http://43.205.99.61:8081/repository/webAppMaven-Project/</url>
+              <url>http://43.205.99.61:8081/repository/checking_multilinescomment/</url>
             </snapshotRepository>
   </distributionManagement>  
 </project>
