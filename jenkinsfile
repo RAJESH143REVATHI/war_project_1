@@ -15,7 +15,8 @@ stage('SonarQube'){
 sh "${mavenHome}/bin/mvn sonar:sonar"
 }
 
-/*stage("DeployArtifacts into nexus"){
+/*
+stage("DeployArtifacts into nexus"){
 sh "${mavenHome}/bin/mvn deploy"    
 }
 stage('tomcat'){
