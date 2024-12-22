@@ -1,0 +1,95 @@
+pipeline {
+    agent any
+    
+    // Pipeline properties for build discard and SCM polling (Optional, uncomment to enable)
+    /*
+    options {
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '', numToKeepStr: '2')) // Retain last 2 builds
+        pollSCM('* * * * *') // Poll SCM every minute
+    }
+    */
+
+    environment {
+        MAVEN_HOME = tool name: "apache-maven-3.8.8" // Set Maven tool path
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Checkout the code from GitHub
+                git credentialsId: 'github_New', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Build the project using Maven
+                sh "${MAVEN_HOME}/bin/mvn clean package"
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                // Run SonarQube analysis
+                sh "${MAVEN_HOME}/bin/mvn sonar:sonar"
+            }
+        }
+
+        stage('Deploy to Nexus') {
+            steps {
+                // Deploy the build artifact to Nexus repository
+                sh "${MAVEN_HOME}/bin/mvn clean deploy"
+            }
+        }
+        stage('tomcat'){
+            steps{
+            sshagent(['42c619b7-8d83-4f63-a59c-56223365f848']) {
+               sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@43.204.236.7:/opt/tomcat9/webapps/"
+                }
+                 
+            }
+        }
+    }
+
+    post {
+        success {
+            // Notify Slack on build success
+            slacknotifications('SUCCESS')
+        }
+        failure {
+            // Notify Slack on build failure
+            slacknotifications('FAILURE')
+        }
+        always {
+            // Always notify Slack when the build starts
+            slacknotifications('STARTED')
+        }
+    }
+}
+
+// Slack Notification Function
+def slacknotifications(String buildStatus = 'STARTED') {
+    buildStatus = buildStatus ?: 'SUCCESS'  // Default to SUCCESS if buildStatus is null
+
+    // Default values for the message color
+    def color = 'RED'
+    def colorCode = '#FF0000'  // Default to RED color
+
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def summary = "${subject} (${env.BUILD_URL})"
+
+    // Override default values based on build status
+    if (buildStatus == 'STARTED') {
+        color = 'ORANGE'
+        colorCode = '#FFA500'
+    } else if (buildStatus == 'SUCCESS') {
+        color = 'GREEN'
+        colorCode = '#008000'  // Dark Green
+    } else if (buildStatus == 'FAILURE') {
+        color = 'RED'
+        colorCode = '#FF0000'
+    }
+
+    // Send Slack notification with the relevant color and message
+    slackSend(color: colorCode, message: summary)
+}
