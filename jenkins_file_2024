@@ -6,6 +6,9 @@ pipeline {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3', removeLastBuild: true)
         
     }
+    parameters {
+       choice choices: ['Developer', 'master', 'QA'], name: 'BranchName'
+   }
 
     triggers {
         pollSCM '* * * * *' // Poll SCM every minute (you can adjust as needed)
