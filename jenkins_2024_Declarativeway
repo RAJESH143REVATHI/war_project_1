@@ -2,12 +2,15 @@ pipeline {
     agent any
     
     // Pipeline properties for build discard and SCM polling (Optional, uncomment to enable)
-    /*
+    
     options {
-        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '', numToKeepStr: '2')) // Retain last 2 builds
-        pollSCM('* * * * *') // Poll SCM every minute
+        options {
+             buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3', removeLastBuild: true)
+             timestamps}// Retain last 2 builds
     }
-    */
+    triggers {
+          pollSCM '* * * * *'
+       }
 
     environment {
         MAVEN_HOME = tool name: "apache-maven-3.8.8" // Set Maven tool path
