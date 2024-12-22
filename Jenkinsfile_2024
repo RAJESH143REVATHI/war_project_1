@@ -1,26 +1,41 @@
+node {
+    def mavenHome = tool name: "apache-maven-3.8.8"
+    echo "The job name is: ${env.JOB_NAME}"
 
-node
-{
-def mavenHome = tool name: "apache-maven-3.8.8"
-echo "The job name is: ${env.JOB_NAME}"
+    // Call Slack notifications function with 'STARTED' status at the start
+    slacknotifications('STARTED')
 
-stage('checkoutCode'){
-git credentialsId: 'github_New', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'    
+    try {
+        stage('checkoutCode') {
+            git credentialsId: 'github_New', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'
+        }
+
+        stage('Build') {
+            sh "${mavenHome}/bin/mvn clean package"
+        }
+
+        // If the build was successful, update Slack with SUCCESS status
+        slacknotifications('SUCCESS')
+
+    } catch (Exception e) {
+        // In case of failure, mark the build as FAILED and notify Slack
+        currentBuild.result = 'FAILURE'
+        slacknotifications('FAILURE')
+        throw e  // Re-throw the exception to ensure Jenkins marks the build as failed
+    }
 }
-stage('Build'){
-sh "${mavenHome}/bin/mvn clean package"
-}
-}//node closing 
+
+// Slack Notification Function
 def slacknotifications(String buildStatus = 'STARTED') {
     buildStatus = buildStatus ?: 'SUCCESS'  // Default to SUCCESS if buildStatus is null
-    
-    // Default values
+
+    // Default values for the message color
     def color = 'RED'
     def colorCode = '#FF0000'  // Default to RED color
-    
+
     def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def summary = "${subject} (${env.BUILD_URL})"
-     
+
     // Override default values based on build status
     if (buildStatus == 'STARTED') {
         color = 'YELLOW'
@@ -28,11 +43,11 @@ def slacknotifications(String buildStatus = 'STARTED') {
     } else if (buildStatus == 'SUCCESS') {
         color = 'GREEN'
         colorCode = '#00FF00'
-    } else {
+    } else if (buildStatus == 'FAILURE') {
         color = 'RED'
         colorCode = '#FF0000'
     }
-    
-    // Send Slack notification
+
+    // Send Slack notification with the relevant color and message
     slackSend(color: colorCode, message: summary)
 }
