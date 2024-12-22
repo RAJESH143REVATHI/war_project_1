@@ -3,7 +3,8 @@ pipeline {
     
     // Pipeline properties for build discard and SCM polling (Optional, uncomment to enable)
     options {
-        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3', removeLastBuild: true)
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '', numToKeepStr: '2')
+        timestamps
         
     }
 
