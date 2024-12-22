@@ -11,7 +11,7 @@ node {
         }
 
         stage('Build') {
-            sh "${mavenHome}/bin/mvn clean package"
+            sh "${mavenHome}/bin/mvn clean package_"
         }
 
         // If the build was successful, update Slack with SUCCESS status
