@@ -2,11 +2,11 @@ pipeline {
     agent any
     
     // Pipeline properties for build discard and SCM polling (Optional, uncomment to enable)
-    options {
+    /*options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3', removeLastBuild: true)
         timestamps
     }
-
+*/
     triggers {
         pollSCM '* * * * *' // Poll SCM every minute (you can adjust as needed)
     }
