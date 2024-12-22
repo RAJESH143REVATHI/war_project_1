@@ -22,7 +22,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // Checkout the code from GitHub
-                git credentialsId: 'github_New', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'
+                git branch: "${params.BranchName}", credentialsId: 'github_New', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'
             }
         }
 
