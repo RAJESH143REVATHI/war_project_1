@@ -1,6 +1,7 @@
 node {
     def mavenHome = tool name: "apache-maven-3.8.8"
     echo "The job name is: ${env.JOB_NAME}"
+    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '', numToKeepStr: '2')), pipelineTriggers([pollSCM('* * * * *')])])
 
     // Call Slack notifications function with 'STARTED' status at the start
     slacknotifications('STARTED')
