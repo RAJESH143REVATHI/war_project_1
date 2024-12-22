@@ -3,15 +3,16 @@ pipeline {
     
     // Pipeline properties for build discard and SCM polling (Optional, uncomment to enable)
     options {
-        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3', removeLastBuild: true)
-        
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3') // Keep only the last 3 builds
+        timestamps  // Adds timestamps to the log output
     }
+
     parameters {
-       choice choices: ['Developer', 'master', 'QA'], name: 'BranchName'
-   }
+        choice choices: ['Developer', 'master', 'QA'], name: 'BranchName'  // Parameter to choose the branch
+    }
 
     triggers {
-        pollSCM '* * * * *' // Poll SCM every minute (you can adjust as needed)
+        pollSCM '* * * * *' // Poll SCM every minute (adjust as needed)
     }
 
     environment {
