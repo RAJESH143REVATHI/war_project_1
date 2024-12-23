@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+    properties([parameters([choice(choices: ['developer', 'master', 'QA'], name: 'BranchName')]), pipelineTriggers([pollSCM('* * * * *')])])
     // Pipeline properties for build discard and SCM polling (Optional, uncomment to enable)
     options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3', removeLastBuild: true)
