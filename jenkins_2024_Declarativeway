@@ -30,28 +30,28 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        /*stage('SonarQube Analysis') {
             steps {
                 // Run SonarQube analysis
                 sh "${MAVEN_HOME}/bin/mvn sonar:sonar"
             }
-        }
+        }*/
 
-        stage('Deploy to Nexus') {
+        /*stage('Deploy to Nexus') {
             steps {
                 // Deploy the build artifact to Nexus repository
                 sh "${MAVEN_HOME}/bin/mvn clean deploy"
             }
-        }
+        }*/
 
-        stage('Deploy to Tomcat') {
+        /*stage('Deploy to Tomcat') {
             steps {
                 // Deploy the WAR file to Tomcat server using SSH
                 sshagent(['8dc3afd6-a7bd-465c-85ee-915908c02ffc']) {
                     sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@43.204.236.7:/opt/tomcat9/webapps/"
                 }
             }
-        }
+        }*/
     }
 
     post {
