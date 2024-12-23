@@ -23,12 +23,12 @@ pipeline {
     stages {
     stage('Checkout Code') {
         steps {
-           
+           tomestamps{
             // Checkout the code from GitHub
             git credentialsId: '5aa822b1-f52c-490f-90f7-ad027663697c', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'
         }
     }
-
+}
         stage('Build') {
             steps {
                 // Build the project using Maven
