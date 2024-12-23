@@ -2,15 +2,14 @@ pipeline {
     agent any
     
     // Pipeline properties for build discard and SCM polling (Optional, uncomment to enable)
-    
     options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3', removeLastBuild: true)
-        timestamps
+        
     }
 
     triggers {
-          pollSCM '* * * * *'
-       }
+        pollSCM '* * * * *' // Poll SCM every minute (you can adjust as needed)
+    }
 
     environment {
         MAVEN_HOME = tool name: "apache-maven-3.8.8" // Set Maven tool path
@@ -44,12 +43,13 @@ pipeline {
                 sh "${MAVEN_HOME}/bin/mvn clean deploy"
             }
         }
-        stage('tomcat'){
-            steps{
-            sshagent(['42c619b7-8d83-4f63-a59c-56223365f848']) {
-               sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@43.204.236.7:/opt/tomcat9/webapps/"
+
+        stage('Deploy to Tomcat') {
+            steps {
+                // Deploy the WAR file to Tomcat server using SSH
+                sshagent(['42c619b7-8d83-4f63-a59c-56223365f848']) {
+                    sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@43.204.236.7:/opt/tomcat9/webapps/"
                 }
-                 
             }
         }
     }
