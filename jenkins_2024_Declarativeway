@@ -1,6 +1,8 @@
 pipeline {
     agent any
-    //properties([parameters([choice(choices: ['developer', 'master', 'QA'], name: 'BranchName')]), pipelineTriggers([pollSCM('* * * * *')])])
+    parameters {
+  choice choices: ['developer', 'master', 'QA'], description: 'Select branch name', name: 'BranchName'
+   }
     // Pipeline properties for build discard and SCM polling (Optional, uncomment to enable)
     options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3', removeLastBuild: true)
@@ -19,7 +21,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // Checkout the code from GitHub
-                git credentialsId: '5aa822b1-f52c-490f-90f7-ad027663697c', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'
+                git branch: "${params.BranchName}", credentialsId: '5aa822b1-f52c-490f-90f7-ad027663697c', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'
             }
         }
 
