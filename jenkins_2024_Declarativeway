@@ -47,7 +47,7 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
                 // Deploy the WAR file to Tomcat server using SSH
-                sshagent(['42c619b7-8d83-4f63-a59c-56223365f848']) {
+                sshagent(['8dc3afd6-a7bd-465c-85ee-915908c02ffc']) {
                     sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@43.204.236.7:/opt/tomcat9/webapps/"
                 }
             }
