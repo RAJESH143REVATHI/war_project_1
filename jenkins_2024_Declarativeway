@@ -4,9 +4,14 @@ pipeline {
   choice choices: ['developer', 'master', 'QA'], description: 'Select branch name', name: 'BranchName'
    }
     // Pipeline properties for build discard and SCM polling (Optional, uncomment to enable)
-    options {
+    /*options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '3', removeLastBuild: true)
-    }
+    }*/
+
+    options {
+     timestamps
+     buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '', numToKeepStr: '2')
+     }
 
     triggers {
         pollSCM '* * * * *' // Poll SCM every minute (you can adjust as needed)
