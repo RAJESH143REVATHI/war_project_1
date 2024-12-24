@@ -27,6 +27,23 @@ sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@13.127.228.1
 
 }
 
+    post {
+        success {
+            // Notify Slack on build success
+            slacknotifications('SUCCESS')
+        }
+        failure {
+            // Notify Slack on build failure
+            slacknotifications('FAILURE')
+        }
+        always {
+            // Always notify Slack when the build starts
+            slacknotifications('STARTED')
+        }
+    }
+}
+
+
 // Slack Notification Function
 def slacknotifications(String buildStatus = 'STARTED') {
     buildStatus = buildStatus ?: 'SUCCESS'  // Default to SUCCESS if buildStatus is null
