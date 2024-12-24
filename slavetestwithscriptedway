@@ -13,7 +13,7 @@ sh "${mavenHome}/bin/mvn clean package"
 }
 }
 
-    post {
+/*    post {
         success {
             // Notify Slack on build success
             slacknotifications('SUCCESS')
@@ -55,4 +55,4 @@ def slacknotifications(String buildStatus = 'STARTED') {
 
     // Send Slack notification with the relevant color and message
     slackSend(color: colorCode, message: summary)
-}
+}*/
