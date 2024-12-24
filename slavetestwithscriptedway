@@ -41,7 +41,7 @@ sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@13.127.228.1
             slacknotifications('STARTED')
         }
     }
-}
+
 
 
 // Slack Notification Function
