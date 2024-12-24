@@ -1,19 +1,31 @@
-node('adatper_label1')
-{
-def mavenHome = tool name: "apache-maven-3.8.8"
-properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '4')), pipelineTriggers([pollSCM('* * * * *')])])
+pipeline {
+    agent { label 'adatper_label1' }
+    
+    environment {
+        mavenHome = tool name: "apache-maven-3.8.8"
+    }
+    
+    properties([
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '4')), 
+        pipelineTriggers([pollSCM('* * * * *')])
+    ])
 
-echo "The job name is: ${env.JOB_NAME}"
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git credentialsId: '2bd2f6f9-f9b0-4e2c-bf1f-39f76d69b088', 
+                    url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'
+            }
+        }
 
-stage('checkoutCode'){
-git credentialsId: '2bd2f6f9-f9b0-4e2c-bf1f-39f76d69b088', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'    
-}
-stage('Build'){
-sh "${mavenHome}/bin/mvn clean package"
-}
-}
-
-/*    post {
+        stage('Build') {
+            steps {
+                sh "${mavenHome}/bin/mvn clean package"
+            }
+        }
+    }
+    
+    post {
         success {
             // Notify Slack on build success
             slacknotifications('SUCCESS')
@@ -27,8 +39,7 @@ sh "${mavenHome}/bin/mvn clean package"
             slacknotifications('STARTED')
         }
     }
-
-
+}
 
 // Slack Notification Function
 def slacknotifications(String buildStatus = 'STARTED') {
@@ -55,4 +66,4 @@ def slacknotifications(String buildStatus = 'STARTED') {
 
     // Send Slack notification with the relevant color and message
     slackSend(color: colorCode, message: summary)
-}*/
+}
