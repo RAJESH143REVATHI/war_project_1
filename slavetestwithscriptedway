@@ -1,41 +1,28 @@
-node('adapter_label1') {
-    // Define the Maven tool
-    def mavenHome = tool name: "apache-maven-3.8.8"
-    
-    // Set build discarder and SCM polling trigger
-    properties([
-        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '4')),
-        pipelineTriggers([pollSCM('* * * * *')])
-    ])
+node('adatper_label1')
+{
+def mavenHome = tool name: "apache-maven-3.8.8"
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '4')), pipelineTriggers([pollSCM('* * * * *')])])
 
-    // Display job name for visibility
-    echo "The job name is: ${env.JOB_NAME}"
+echo "The job name is: ${env.JOB_NAME}"
 
-    // Checkout Code stage
-    stage('Checkout Code') {
-        git credentialsId: 'fac517a7-0e5c-4176-a648-c6e7cbd3dcd2', 
-            url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'
-    }
+stage('checkoutCode'){
+git credentialsId: 'fac517a7-0e5c-4176-a648-c6e7cbd3dcd2', url: 'https://github.com/RAJESH143REVATHI/war_project_1.git'    
+}
+stage('Build'){
+sh "${mavenHome}/bin/mvn clean package"
+}
+/*stage('SonarQube'){
+sh "${mavenHome}/bin/mvn sonar:sonar"
+}*/
 
-    // Build stage using Maven
-    stage('Build') {
-        sh "${mavenHome}/bin/mvn clean package"
-    }
+/*stage("DeployArtifacts into nexus"){
+sh "${mavenHome}/bin/mvn deploy"    
+}
+stage('tomcat'){
+sshagent(['f346c79f-38a0-4c16-bffb-632546e8cf75']) {
+sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@13.127.228.16:/opt/tomcat9/webapps"
+}    
+}
+*/
 
-    // SonarQube Stage (commented out)
-    /*stage('SonarQube') {
-        sh "${mavenHome}/bin/mvn sonar:sonar"
-    }*/
-
-    // Deploy artifacts into Nexus (commented out)
-    /*stage("Deploy Artifacts into Nexus") {
-        sh "${mavenHome}/bin/mvn deploy"    
-    }*/
-
-    // Tomcat deployment (commented out)
-    /*stage('Tomcat Deployment') {
-        sshagent(['f346c79f-38a0-4c16-bffb-632546e8cf75']) {
-            sh "scp -o StrictHostKeyChecking=no target/maven-web-app.war ubuntu@13.127.228.16:/opt/tomcat9/webapps"
-        }
-    }*/
 }
