@@ -1,7 +1,7 @@
 pipeline {
     //agent any
     agent{
-      label "nodes"
+      label "adatper_label1"
       }
     parameters {
   choice choices: ['developer', 'master', 'QA'], description: 'Select branch name', name: 'BranchName'
