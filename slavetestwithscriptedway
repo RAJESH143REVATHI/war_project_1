@@ -1,6 +1,10 @@
 pipeline {
     agent { label 'adatper_label1' }
-    
+    parameters {
+  choice choices: ['developer', 'master', 'QA'], description: 'Select branch name', name: 'BranchName'
+   }
+
+
     environment {
         mavenHome = tool name: "apache-maven-3.8.8"
     }
