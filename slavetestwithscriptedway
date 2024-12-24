@@ -8,11 +8,6 @@ node('adapter_label1') {
         pipelineTriggers([pollSCM('* * * * *')])
     ])
 
-    // Send Slack notification
-    slackSend channel: '#all-mb-monitoring-team', 
-              teamDomain: 'mb-monitoringteam', 
-              tokenCredentialId: 'b3c10683-314b-413b-a41c-fa720eff920f'
-
     // Display job name for visibility
     echo "The job name is: ${env.JOB_NAME}"
 
