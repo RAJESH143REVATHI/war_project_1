@@ -44,8 +44,8 @@
   <distributionManagement>
             <snapshotRepository>
               <id>nexus</id>
-              <name>wenAppMaven-Project</name>
-              <url>http://3.110.186.36:8081/repository/declarativejobtest/</url>
+              <name>wenAppMaven-war_project</name>
+              <url>http://18.212.92.231:8081/repository/war_project/</url>
             </snapshotRepository>
   </distributionManagement>  
 </project>
